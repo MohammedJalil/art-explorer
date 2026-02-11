@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Explorer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23050507'/><rect x='15' y='20' width='70' height='55' rx='4' fill='none' stroke='%23d4a84b' stroke-width='3'/><rect x='22' y='27' width='56' height='41' rx='2' fill='%23111117'/><path d='M22 55 L42 38 L55 48 L68 33 L78 45 L78 68 L22 68Z' fill='%23d4a84b' opacity='0.3'/><circle cx='62' cy='36' r='5' fill='%23d4a84b' opacity='0.5'/></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== Progress Bar ===== -->
+    <div id="progress-bar" class="progress-bar hidden">
+        <div id="progress-fill" class="progress-fill"></div>
+    </div>
+
+    <!-- ===== Full-screen Hero ===== -->
+    <section id="hero" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">A Curated Collection</p>
+            <h1 class="hero-title">Art Explorer</h1>
+            <p class="hero-subtitle">Journey through masterpieces across centuries.<br>One click. One revelation.</p>
+            <button id="hero-discover-btn" class="hero-btn">
+                <span class="hero-btn-text">Begin</span>
+                <span class="hero-btn-arrow">&rarr;</span>
+            </button>
+        </div>
+        <div class="hero-scroll-hint">
+            <span>Scroll, press Space, or click to begin</span>
+            <div class="hero-scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ===== Artwork View ===== -->
+    <section id="artwork-view" class="artwork-view hidden">
+
+        <!-- Image Stage -->
+        <div class="image-stage">
+            <div id="loading-spinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p>Loading masterpiece...</p>
+            </div>
+            <img id="artwork-image" class="artwork-image" alt="" />
+            <div id="image-placeholder" class="image-placeholder hidden">
+                <div class="placeholder-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2"/>
+                        <path d="M6 30l10-8 7 6 8-10 11 12v4a3 3 0 01-3 3H9a3 3 0 01-3-3v-4z" fill="currentColor" opacity="0.15"/>
+                        <circle cx="32" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <p class="placeholder-title">Image unavailable</p>
+                <p class="placeholder-sub">The artwork details are still available below</p>
+            </div>
+            <!-- Gradient overlay at bottom of image -->
+            <div class="image-vignette"></div>
+
+            <!-- Overlay info on top of image -->
+            <div class="image-overlay-info">
+                <span id="artwork-movement" class="movement-badge"></span>
+                <h2 id="artwork-title" class="overlay-title"></h2>
+                <p id="artwork-artist" class="overlay-artist"></p>
+            </div>
+        </div>
+
+        <!-- Meta Bar -->
+        <div class="meta-bar">
+            <div class="meta-left">
+                <span id="artwork-date" class="meta-item"></span>
+                <span class="meta-divider"></span>
+                <span id="artwork-medium" class="meta-item"></span>
+                <span class="meta-divider"></span>
+                <span id="artwork-dimensions" class="meta-item"></span>
+            </div>
+            <div class="meta-right">
+                <span id="artwork-counter" class="artwork-counter"></span>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-container">
+            <nav class="tab-bar">
+                <button class="tab-btn active" data-tab="about">About This Work</button>
+                <button class="tab-btn" data-tab="analysis">Analysis</button>
+                <button class="tab-btn" data-tab="facts">Fun Facts</button>
+            </nav>
+            <div class="tab-panels">
+                <div id="tab-about" class="tab-panel active">
+                    <div id="about-content" class="panel-text"></div>
+                </div>
+                <div id="tab-analysis" class="tab-panel">
+                    <div id="analysis-content" class="panel-text"></div>
+                </div>
+                <div id="tab-facts" class="tab-panel">
+                    <ul id="facts-content" class="facts-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Images courtesy of the <a href="https://www.artic.edu" target="_blank" rel="noopener">Art Institute of Chicago</a> and <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a></p>
+        </footer>
+    </section>
+
+    <!-- ===== Floating Discover Button ===== -->
+    <button id="discover-btn" class="floating-btn hidden">
+        <span class="floating-btn-text">Next Artwork</span>
+        <span class="floating-btn-icon">&rarr;</span>
+    </button>
+
+    <!-- ===== Keyboard Hint ===== -->
+    <div id="keyboard-hint" class="keyboard-hint hidden">
+        <span>&larr; &rarr; Arrow keys &middot; Space for next</span>
+    </div>
+
+    <!-- ===== Fullscreen Lightbox ===== -->
+    <div id="lightbox" class="lightbox hidden" role="dialog" aria-label="Fullscreen artwork view">
+        <button id="lightbox-close" class="lightbox-close" aria-label="Close">&times;</button>
+        <img id="lightbox-img" class="lightbox-img" alt="" />
+    </div>
+
+    <script src="artworks.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
